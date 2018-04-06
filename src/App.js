@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SockJS from 'sockjs-client'
-import Stomp from 'stomp-websocket';
+
+import { receiveCalls } from './websocket-layer';
 
 
 class App extends Component {
@@ -12,19 +12,14 @@ class App extends Component {
         this.state = {
             calls: []
         };
+        receiveCalls((call) => this.addCallsToState(call))
     }
 
-    componentDidMount() {
-
-        var socket = new SockJS('http://localhost:8080/call');
-        var stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            // subscribe to the /topic/message endpoint
-            stompClient.subscribe("/topic/calls", function (data) {
-                debugger;
-            });
-        });
-    }
+    addCallsToState = (call) => {
+        const callsCopy = [...this.state.calls];
+        callsCopy.push(call);
+        this.setState({callsCopy})
+    };
 
     render() {
         return (
