@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react";
+import "./App.css";
 
-import { receiveCalls } from './websocket-layer';
+import {receiveCalls} from "./websocket-layer";
 
 
 class App extends Component {
@@ -16,21 +15,28 @@ class App extends Component {
     }
 
     addCallsToState = (call) => {
-        const callsCopy = [...this.state.calls];
-        callsCopy.push(call);
-        this.setState({callsCopy})
+        const calls = [...this.state.calls];
+        calls.push(call);
+        this.setState({calls})
+    };
+
+    displayCalls = () => {
+        return this.state.calls.map((call) => {
+            return (
+                <div>
+                    <div> Name: {call.name} </div>
+                    <div> email: {call.email} </div>
+                    <div> time: {call.time} </div>
+                    <br/>
+                </div>
+            )
+        })
     };
 
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </p>
+                {this.displayCalls()}
             </div>
         );
     }
