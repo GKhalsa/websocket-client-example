@@ -5,8 +5,8 @@ export const receiveCalls = (callBack) => {
     const socket = new SockJS('http://localhost:8080/call');
     const stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, function (frame) {
-        stompClient.subscribe("/topic/calls", function (data) {
+    stompClient.connect({},  () => {
+        stompClient.subscribe("/topic/calls", (data) => {
             callBack(JSON.parse(data.body));
         });
     });
